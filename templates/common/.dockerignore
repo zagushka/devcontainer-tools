@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+.vite
+.pnpm-store
+coverage
+test-results
+playwright-report
+.git
+.vscode
+.idea
+*.log
+.env
+.env.*

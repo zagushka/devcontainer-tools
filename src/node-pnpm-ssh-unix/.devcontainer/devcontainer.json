@@ -1,0 +1,20 @@
+{
+  "name": "node22-pnpm",
+  "build": { "dockerfile": "Dockerfile" },
+
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "remoteUser": "node",
+
+  "containerEnv": {
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0",
+    "DEVCONTAINER_HOST_OS": "unix"
+  },
+
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,type=bind,readonly",
+    "source=dc_${localWorkspaceFolderBasename}_node_modules,target=/workspaces/${localWorkspaceFolderBasename}/node_modules,type=volume",
+    "source=dc_${localWorkspaceFolderBasename}_pnpm_store,target=/pnpm-store,type=volume"
+  ],
+
+  "postCreateCommand": "bash .devcontainer/postCreate.sh"
+}
