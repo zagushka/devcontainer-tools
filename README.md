@@ -40,6 +40,39 @@ From Bash on macOS or Linux:
 - `.gitattributes`
 - `DEVCONTAINER.md`
 
+## Templates
+
+Generated file content now lives in `templates/` instead of being embedded inline in the scripts:
+
+- `templates/common/` for files shared across hosts
+- `templates/windows/` for Windows-specific devcontainer files
+- `templates/unix/` for Unix-specific devcontainer files
+
+This keeps the PowerShell and Bash scripts focused on repo bootstrapping, argument parsing, and file writing.
+
+## Template Collection
+
+This repo now also includes a template-based variant under `src/`:
+
+- `src/node-pnpm-ssh-windows`
+- `src/node-pnpm-ssh-unix`
+
+Each template packages the same devcontainer setup as the scripts, but in a reusable collection format with:
+
+- `devcontainer-collection.json` at the repo root
+- `devcontainer-template.json` per template
+- host-specific `.devcontainer/devcontainer.json`
+- bundled `DEVCONTAINER.md` and notes
+
+Basic smoke checks for the template files live under `test/`.
+
+Run them with:
+
+```bash
+bash test/node-pnpm-ssh-windows/test.sh
+bash test/node-pnpm-ssh-unix/test.sh
+```
+
 ## Workflow
 
 1. Run the host-appropriate bootstrap script.
@@ -64,8 +97,20 @@ From Bash on macOS or Linux:
 ## Repository Layout
 
 ```text
+templates/
+  common/
+  unix/
+  windows/
+src/
+  node-pnpm-ssh-unix/
+  node-pnpm-ssh-windows/
+test/
+  node-pnpm-ssh-unix/
+  node-pnpm-ssh-windows/
 tools/
   setup-unix-devcontainer.sh
   setup-windows-devcontainer.ps1
+devcontainer-collection.json
+LICENSE
 README.md
 ```

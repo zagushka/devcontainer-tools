@@ -1,0 +1,13 @@
+{
+  "name": "devcontainer-tools",
+  "templates": [
+    {
+      "id": "node-pnpm-ssh-windows",
+      "name": "Node + pnpm + SSH (Windows Host)"
+    },
+    {
+      "id": "node-pnpm-ssh-unix",
+      "name": "Node + pnpm + SSH (Unix Host)"
+    }
+  ]
+}

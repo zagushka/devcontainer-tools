@@ -1,0 +1,18 @@
+{
+  "id": "node-pnpm-ssh-unix",
+  "version": "0.1.0",
+  "name": "Node + pnpm + SSH (Unix Host)",
+  "description": "Node.js devcontainer with pnpm volumes and mounted Unix SSH config.",
+  "documentationURL": "https://github.com/zagushka/devcontainer-tools",
+  "licenseURL": "https://github.com/zagushka/devcontainer-tools/blob/main/LICENSE",
+  "platforms": [
+    "Any"
+  ],
+  "options": {
+    "nodeVersion": {
+      "type": "string",
+      "default": "22",
+      "description": "Node.js major version used by the Dockerfile."
+    }
+  }
+}
