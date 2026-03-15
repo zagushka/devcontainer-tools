@@ -105,34 +105,29 @@ if (-not (Test-Path $targetPath)) {
   Write-Host "Repo folder exists, skipping clone."
 }
 
-Push-Location $targetPath
-try {
-  New-Item -ItemType Directory -Force -Path ".devcontainer" | Out-Null
+$devcontainerDir = Join-Path $targetPath ".devcontainer"
+New-Item -ItemType Directory -Force -Path $devcontainerDir | Out-Null
 
-  $dockerfile = Render-Template (Get-TemplateContent "common/.devcontainer/Dockerfile") @{
-    "__NODE_VERSION__" = $NodeVersion
-  }
-  $devcontainerJson = Render-Template (Get-TemplateContent "windows/.devcontainer/devcontainer.json") @{
-    "__NODE_VERSION__" = $NodeVersion
-  }
-  $doc = Render-Template (Get-TemplateContent "common/DEVCONTAINER.md") @{
-    "__NODE_VERSION__" = $NodeVersion
-  }
-
-  Ensure-File ".devcontainer/Dockerfile" $dockerfile
-  Ensure-File ".devcontainer/postCreate.sh" (Get-TemplateContent "common/.devcontainer/postCreate.sh") -NoBom
-  Ensure-File ".devcontainer/devcontainer.json" $devcontainerJson
-  Ensure-File ".dockerignore" (Get-TemplateContent "common/.dockerignore")
-  Ensure-File ".gitattributes" (Get-TemplateContent "common/.gitattributes")
-  Ensure-File $DocFileName $doc -NoBom
-
-  Write-Host ""
-  Write-Host "Done."
-  Write-Host "Next steps:"
-  Write-Host "1) Verify Windows SSH config: %USERPROFILE%\.ssh\config"
-  Write-Host "2) Open repo in Cursor or VS Code and run: Dev Containers: Rebuild Container"
-  Write-Host "3) Review the generated DEVCONTAINER.md for host-specific usage notes"
+$dockerfile = Render-Template (Get-TemplateContent "common/.devcontainer/Dockerfile") @{
+  "__NODE_VERSION__" = $NodeVersion
 }
-finally {
-  Pop-Location
+$devcontainerJson = Render-Template (Get-TemplateContent "windows/.devcontainer/devcontainer.json") @{
+  "__NODE_VERSION__" = $NodeVersion
 }
+$doc = Render-Template (Get-TemplateContent "common/DEVCONTAINER.md") @{
+  "__NODE_VERSION__" = $NodeVersion
+}
+
+Ensure-File (Join-Path $devcontainerDir "Dockerfile") $dockerfile
+Ensure-File (Join-Path $devcontainerDir "postCreate.sh") (Get-TemplateContent "common/.devcontainer/postCreate.sh") -NoBom
+Ensure-File (Join-Path $devcontainerDir "devcontainer.json") $devcontainerJson
+Ensure-File (Join-Path $targetPath ".dockerignore") (Get-TemplateContent "common/.dockerignore")
+Ensure-File (Join-Path $targetPath ".gitattributes") (Get-TemplateContent "common/.gitattributes")
+Ensure-File (Join-Path $targetPath $DocFileName) $doc -NoBom
+
+Write-Host ""
+Write-Host "Done."
+Write-Host "Next steps:"
+Write-Host "1) Verify Windows SSH config: %USERPROFILE%\.ssh\config"
+Write-Host "2) Open repo in Cursor or VS Code and run: Dev Containers: Rebuild Container"
+Write-Host "3) Review the generated DEVCONTAINER.md for host-specific usage notes"
