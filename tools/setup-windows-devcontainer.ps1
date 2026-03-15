@@ -118,11 +118,11 @@ $doc = Render-Template (Get-TemplateContent "common/DEVCONTAINER.md") @{
   "__NODE_VERSION__" = $NodeVersion
 }
 
-Ensure-File (Join-Path $devcontainerDir "Dockerfile") $dockerfile
+Ensure-File (Join-Path $devcontainerDir "Dockerfile") $dockerfile -NoBom
 Ensure-File (Join-Path $devcontainerDir "postCreate.sh") (Get-TemplateContent "common/.devcontainer/postCreate.sh") -NoBom
-Ensure-File (Join-Path $devcontainerDir "devcontainer.json") $devcontainerJson
-Ensure-File (Join-Path $targetPath ".dockerignore") (Get-TemplateContent "common/.dockerignore")
-Ensure-File (Join-Path $targetPath ".gitattributes") (Get-TemplateContent "common/.gitattributes")
+Ensure-File (Join-Path $devcontainerDir "devcontainer.json") $devcontainerJson -NoBom
+Ensure-File (Join-Path $targetPath ".dockerignore") (Get-TemplateContent "common/.dockerignore") -NoBom
+Ensure-File (Join-Path $targetPath ".gitattributes") (Get-TemplateContent "common/.gitattributes") -NoBom
 Ensure-File (Join-Path $targetPath $DocFileName) $doc -NoBom
 
 Write-Host ""
